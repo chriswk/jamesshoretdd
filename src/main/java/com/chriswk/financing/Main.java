@@ -13,8 +13,8 @@ public class Main {
         SavingsAccountYear account = new SavingsAccountYear();
         account.deposit(10000);
         for(int i = 0; i< 60; i++) {
-            System.out.println(i + ": $ " +account.getBalance());
-            account = account.nextYear(10);
+            System.out.println(i + ": $ " +account.getStartingBalance());
+            account = account.nextYear();
         }
     }
 }
