@@ -12,8 +12,14 @@ import static org.junit.Assert.*;
 public class _SavingsAccountTest {
 
     @Test
-    public void nothing() {
-        fail("hi");
+    public void depositAndWithdrawal() {
+        SavingsAccount account = new SavingsAccount();
+        account.deposit(100);
+        assertEquals("100 dollars after deposit", 100, account.getBalance());
+        account.withdraw(50);
+        assertEquals("after withdrawal", 50, account.getBalance());
     }
+
+
 
 }
