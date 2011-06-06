@@ -1,10 +1,10 @@
 package com.chriswk.financing;
 
 
-public class SavingsAccount {
+public class SavingsAccountYear {
     private int balance = 0;
 
-    public SavingsAccount() {
+    public SavingsAccountYear() {
     }
 
     public void deposit(int amount) {
@@ -19,8 +19,8 @@ public class SavingsAccount {
         return balance;
     }
 
-    public SavingsAccount nextYear(int interestRate) {
-        SavingsAccount result = new SavingsAccount();
+    public SavingsAccountYear nextYear(int interestRate) {
+        SavingsAccountYear result = new SavingsAccountYear();
         result.deposit(getBalance() + (getBalance() * interestRate / 100));
         return result;
     }
