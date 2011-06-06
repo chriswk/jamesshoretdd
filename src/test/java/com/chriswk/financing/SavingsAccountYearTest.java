@@ -6,7 +6,6 @@ import static org.junit.Assert.*;
 
 public class SavingsAccountYearTest {
 
-
     @Test
     public void startingBalanceMatchesConstructor() {
         assertEquals(10000, newAccount().startingBalance());
@@ -63,7 +62,6 @@ public class SavingsAccountYearTest {
 
     }
 
-
     @Test
     public void multipleWithdrawalsInAYear() {
         SavingsAccountYear year = new SavingsAccountYear(10000, 3000, 10);
@@ -82,31 +80,25 @@ public class SavingsAccountYearTest {
     }
 
     @Test
-    public void capitalGainTaxIncurred() {
+    public void capitalGainTaxIncurred_NeedsToCoverCapitalGainsWithdrawn_AND_theAdditionalCapitalGainsWithdrawnToPayCapitalGainsTax() {
         SavingsAccountYear year = new SavingsAccountYear(10000, 3000, 10);
         year.withdraw(5000);
         assertEquals(2000, year.capitalGainsWithdrawn());
-        assertEquals(500, year.capitalGainsTaxIncurred(25));
+        assertEquals(666, year.capitalGainsTaxIncurred(25));
     }
 
     @Test
     public void capitalGainsTaxIsIncludedInEndingBalance() {
+        int amountWithdrawn = 5000;
+        int expectedCapitalGainsTax = 666;
         SavingsAccountYear year = new SavingsAccountYear(10000, 3000, 10);
-        year.withdraw(5000);
-        assertEquals(500, year.capitalGainsTaxIncurred(25));
-        assertEquals(10000 - 5000 -500 + 450, year.endingBalance(25));
+        year.withdraw(amountWithdrawn);
+        int expectedStartingBalanceAfterWithdrawals = 10000 - amountWithdrawn - expectedCapitalGainsTax;
+        assertEquals(expectedCapitalGainsTax, year.capitalGainsTaxIncurred(25));
+        assertEquals((int) (expectedStartingBalanceAfterWithdrawals * 1.10), year.endingBalance(25));
         //TODO : Need to withdraw enough money to incur capital tax
     }
-    /*@Test
-    public void withdrawingMoreThanPrincipalIncursCapitalGainsTax() {
-        SavingsAccountYear year = new SavingsAccountYear(10000, 3000, 10);
-        year.withdraw(3000);
-        assertEquals(7700, year.endingBalance());
-        year.withdraw(5000);
-        assertEquals(2000 + 200 - (1250), year.endingBalance());
-
-    }*/
-
+  
     private SavingsAccountYear newAccount() {
         return new SavingsAccountYear(10000, 10);
     }
