@@ -3,6 +3,7 @@ package com.chriswk.financing;
 
 public class SavingsAccountYear {
     private int startingBalance = 0;
+    private int startingPrincipal = 0;
     private int interestRate = 0;
     private int capitalGainsAmount = 0;
     private int totalWithdrawn = 0;
@@ -14,18 +15,19 @@ public class SavingsAccountYear {
         this.interestRate = interestRate;
     }
 
-    public SavingsAccountYear(int startingBalance, int capitalGainsAmount, int interestRate) {
+    public SavingsAccountYear(int startingBalance, int startingPrincipal, int interestRate) {
         this.startingBalance = startingBalance;
+        this.startingPrincipal = startingPrincipal;
         this.interestRate = interestRate;
-        this.capitalGainsAmount = capitalGainsAmount;
+        this.capitalGainsAmount = startingBalance - startingPrincipal;
     }
 
-    public SavingsAccountYear nextYear() {
-        return new SavingsAccountYear(this.endingBalance(), this.interestRate());
+    public SavingsAccountYear nextYear(int capitalGainsTaxRate) {
+        return new SavingsAccountYear(this.endingBalance(25), this.interestRate());
     }
 
-    public int endingBalance() {
-        int modifiedStart = startingBalance - totalWithdrawn;
+    public int endingBalance(int capitalGainsTaxRate) {
+        int modifiedStart = startingBalance - totalWithdrawn() - capitalGainsTaxIncurred(capitalGainsTaxRate);
         return modifiedStart + (modifiedStart * this.interestRate / 100);
     }
 
@@ -45,12 +47,24 @@ public class SavingsAccountYear {
         return startingBalance - capitalGainsAmount;
     }
     public int endingPrincipal() {
-        int result = startingPrincipal() - totalWithdrawn;
-        return (result < 0) ? 0 : result;
+        return zeroOrPositive(startingPrincipal() - totalWithdrawn());
+    }
 
+    private int zeroOrPositive(int result) {
+        return Math.max(0, result);
     }
 
     public int totalWithdrawn() {
         return totalWithdrawn;
     }
+
+    public int capitalGainsWithdrawn() {
+        return zeroOrPositive(-1 * (startingPrincipal() - totalWithdrawn()));
+
+    }
+
+    public int capitalGainsTaxIncurred(int taxRate) {
+        return capitalGainsWithdrawn() * taxRate / 100;
+    }
+
 }
