@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
  * Time: 19:18
  * To change this template use File | Settings | File Templates.
  */
-public class _SavingsAccountTest {
+public class SavingsAccountTest {
 
     @Test
     public void depositAndWithdrawal() {
