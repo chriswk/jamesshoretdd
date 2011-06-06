@@ -27,4 +27,13 @@ public class _SavingsAccountTest {
         assertEquals(-75, account.getBalance());
     }
 
+    @Test
+    public void nextYear() {
+        SavingsAccount account = new SavingsAccount();
+        account.deposit(10000);
+        SavingsAccount nextYear = account.nextYear(10);
+        assertEquals("Should accrue 10% interest", 11000, nextYear.getBalance());
+
+    }
+
 }

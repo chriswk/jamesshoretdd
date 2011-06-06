@@ -18,4 +18,10 @@ public class SavingsAccount {
     public int getBalance() {
         return balance;
     }
+
+    public SavingsAccount nextYear(int interestRate) {
+        SavingsAccount result = new SavingsAccount();
+        result.deposit(getBalance() + (getBalance() * interestRate / 100));
+        return result;
+    }
 }
